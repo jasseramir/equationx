@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EquationX</title>
+    <!-- remixicon -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" />
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
+    <!-- favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  </head>
+
+  <body>
+    <main class="container">
+      <h1 class="title">EquationX</h1>
+
+      <form class="eq-form">
+        <div class="field-group" id="fieldGroup"></div>
+
+        <button type="button" class="btn add-btn" id="addBtn">
+          <i class="ri-add-line"></i> Add Equation
+        </button>
+
+        <input type="submit" class="submit-btn" id="submitBtn" value="Solve" />
+      </form>
+      
+      <div id="result" class="result-container"></div>
+    </main>
+
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+  </body>
+</html>

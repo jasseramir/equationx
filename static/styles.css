@@ -1,0 +1,175 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap');
+
+:root {
+  --bg-color: #faf6f0;
+  --panel-bg: #fffcf8;
+  --primary-brown: #2c1810;
+  --accent-brown: #4a2c11;
+  --border-brown: #2c1810;
+  --soft-brown: #8c6d58;
+  --dashed-border: #a68b77;
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: var(--font-body);
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  background-color: var(--bg-color);
+  color: var(--primary-brown);
+}
+
+.container {
+  margin-top: 3.5rem;
+  width: 100%;
+  max-width: 440px;
+  padding: 0 16px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.25rem;
+  font-weight: 700;
+  font-family: var(--font-heading);
+  letter-spacing: -1px;
+  color: var(--primary-brown);
+}
+
+.eq-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.eq-label {
+  display: block;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--accent-brown);
+  padding-left: 4px;
+  margin-block: 12px 6px;
+  font-family: var(--font-heading);
+}
+
+.input-container {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.eq-input {
+  flex: 1;
+  border: 2px solid var(--border-brown);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 15px;
+  color: var(--primary-brown);
+  outline: none;
+  background-color: var(--panel-bg);
+  transition: all 0.2s ease;
+}
+
+.eq-input:focus {
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(44, 24, 16, 0.05);
+}
+
+.btn {
+  border: 2px solid var(--border-brown);
+  border-radius: 8px;
+  background-color: var(--primary-brown);
+  color: var(--bg-color);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-btn {
+  width: 48px;
+  height: 48px;
+  font-size: 1.25rem;
+  background-color: var(--panel-bg);
+  color: var(--primary-brown);
+}
+
+.delete-btn:hover {
+  background-color: var(--primary-brown);
+  color: var(--bg-color);
+}
+
+.delete-btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.add-btn {
+  padding: 12px;
+  gap: 6px;
+  font-size: 15px;
+  background-color: transparent;
+  color: var(--primary-brown);
+  border: 2px dashed var(--dashed-border);
+  width: 100%;
+  font-family: var(--font-heading);
+}
+
+.add-btn:hover {
+  border-style: solid;
+  border-color: var(--border-brown);
+  color: var(--bg-color);
+  background-color: var(--primary-brown);
+}
+
+.submit-btn {
+  margin-block: 8px 16px;
+  border: 2px solid var(--border-brown);
+  border-radius: 8px;
+  background-color: var(--primary-brown);
+  color: var(--bg-color);
+  padding: 14px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  font-family: var(--font-heading);
+}
+
+.submit-btn:hover {
+  background-color: var(--panel-bg);
+  color: var(--primary-brown);
+}
+
+.result-container {
+  display: none;
+  margin-top: 20px;
+  padding: 16px;
+  border: 2px solid var(--border-brown);
+  border-radius: 8px;
+  background-color: var(--panel-bg);
+  min-height: 60px;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.result-container, .result-container * {
+  font-family: KaTeX_Main, "Times New Roman", serif;
+}
