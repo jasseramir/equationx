@@ -2,7 +2,7 @@ let count = 1;
 
 const fieldGroup = document.getElementById("fieldGroup");
 const addBtn = document.getElementById("addBtn");
-const submitBtn = document.getElementById("submitBtn");
+const form = document.getElementById("eqForm");
 const resultDiv = document.getElementById("result");
 
 function updateNumbers() {
@@ -111,8 +111,8 @@ if (fieldGroup) {
     });
 }
 
-if (submitBtn) {
-    submitBtn.addEventListener("click", async (e) => {
+if (form) {
+    form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const inputElems = fieldGroup.querySelectorAll(".eq-input");
