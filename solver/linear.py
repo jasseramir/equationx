@@ -78,7 +78,7 @@ class LinearEquation:
 
         return (
             {
-                self.var: round(clean(b / a)),
+                self.var: clean(b / a),
                 "status": "Solved"
             }
         )
