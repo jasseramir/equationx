@@ -16,4 +16,10 @@ def solve():
         equations if len(equations) > 1 else equations[0]
     )
 
-    return jsonify(equation.solve())
+    result = equation.solve()
+    result = {
+        key: str(val) if hasattr(val, "real") and hasattr(val, "imaginary") else val
+        for key, val in result.items()
+    }
+
+    return jsonify(result)
