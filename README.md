@@ -33,9 +33,9 @@ project/
 ├── templates/
 │   └── index.html           # Main page
 ├── static/
-│   ├── main.js               # Frontend logic (form handling, API calls, rendering)
-│   ├── styles.css             # Styling
-│   └── favicon.ico            # Website icon
+│   ├── main.js              # Frontend logic (form handling, API calls, rendering)
+│   ├── styles.css           # Styling
+│   └── favicon.ico          # Website icon
 ├── README.md
 └── DESIGN.md
 ```
