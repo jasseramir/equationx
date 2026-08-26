@@ -14,6 +14,7 @@ class SystemOfEquations:
 
         term_var = None
 
+        # a term only has one variable, e.g. "3x" -> term_var = "x", "5" -> term_var = None
         for variable in self.variables:
             if variable in term:
                 term_var = variable
@@ -23,12 +24,14 @@ class SystemOfEquations:
             term = term[1:]
 
         if term_var is not None:
+            # x -> 1x, -x -> -1x (so float() can grab the coefficient)
             if term.startswith(term_var):
                 term = "1" + term
             elif term.startswith("-" + term_var):
                 term = "-1" + term.replace("-", "", 1)
             
         if term_var is not None:
+            # x + y = 5 -> "x" and "y" columns of equation_index get +1 each, "5" is on the right
             coefficient = (-1 if is_right_side else 1) * float(term[:term.find(term_var)])
             self.ref[equation_index][term_var] += coefficient
         else:
@@ -59,6 +62,8 @@ class SystemOfEquations:
 
             self.ref.append({})
 
+            # every equation gets a 0 for each variable, even ones it doesn't use
+            # (so all rows line up in the matrix, e.g. x + y = 5 and x - z = 1 both get a "y" and "z" slot)
             for variable in self.variables:
                 self.ref[i][variable] = 0
 
@@ -76,6 +81,7 @@ class SystemOfEquations:
             for variable in self.variables:
                 row.append(equation[variable])
 
+            # x + y = 5 -> constant was stored as -5, flipped back to +5 for the matrix
             row.append(-equation["constant"])
             matrix.append(row)
 
@@ -101,6 +107,7 @@ class SystemOfEquations:
                     continue
 
             for i in range(pivot + 1, n):
+                # subtract a multiple of the pivot row so column "pivot" becomes 0 in row i
                 factor = matrix[i][pivot] / matrix[pivot][pivot]
 
                 for j in range(pivot, len(matrix[i])):
@@ -110,6 +117,7 @@ class SystemOfEquations:
             constant = row[-1]
             coefficients = row[:-1]
 
+            # 0 = 0 -> infinite solutions, 0 = 5 -> no solution
             all_zero = all(coefficient == 0 for coefficient in coefficients)
 
             if all_zero and constant == 0:
@@ -121,6 +129,7 @@ class SystemOfEquations:
         for i in range(n - 1, -1, -1):
             temp = matrix[i][len(matrix[i]) - 1]
 
+            # solve from the last row up, plugging in variables already found into earlier rows
             for j in range(i + 1, len(matrix[i]) - 1):
                 current_var = vars[j]
                 if self.result[current_var] is not None:

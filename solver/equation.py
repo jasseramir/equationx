@@ -88,6 +88,7 @@ class Equation:
         # those terms fully cancel out, making them linear in disguise.
         simplified = fix_false_quadratic(simplified, variable)
 
+        # "3x^2 + 5 = 0" -> matches "^2" for variable "x", giving degrees = ["^2"]
         degrees = re.findall(
             rf"{re.escape(variable)}((?:\^-?\d+(?:\.\d+)?)+)",
             simplified
@@ -96,6 +97,7 @@ class Equation:
         if not degrees:
             return "LINEAR", simplified
 
+        # degrees like "^2" or "^2^1" -> "2" or "2^1" -> evaluated to 2.0 via power()
         evaluated_degrees = [float(power(degree[1:])) for degree in degrees]
 
         if all(degree == 2 for degree in evaluated_degrees):

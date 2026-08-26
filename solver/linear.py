@@ -13,6 +13,7 @@ class LinearEquation:
         if term.startswith("+"):
             term = term[1:]
 
+        # x -> 1x, -x -> -1x
         if term.startswith(self.var):
             term = "1" + term
         elif term.startswith(f"-{self.var}"):
@@ -25,8 +26,10 @@ class LinearEquation:
         else:
             val = float(term)
 
+        # "2x" -> {"type":"variable","coefficient":2}, "5" -> {"type":"number","value":5}
         self.ref.append({
             "type": "variable" if self.var in term else "number",
+            # 2x + 5 = 11, 11 -> -11 because it is on the right side
             "coefficient" if self.var in term else "value": -val if is_right_side else val,
         })
 
@@ -35,6 +38,7 @@ class LinearEquation:
 
         for i, char in enumerate(side):
             if char in "+-":
+                # -2x + 5 -> leading "-" is kept / 2e-5 -> "-" after e is kept (not a new term)
                 if i == 0 or side[i - 1] in "eE":
                     current_term += char
                     continue
@@ -64,6 +68,7 @@ class LinearEquation:
 
         a, b = 0, 0
 
+        # 2x + 5 = 11 -> a=2, b=6 (the 5 moves to the right, flipping again)
         for term in self.ref:
             if term["type"] == "variable":
                 a += term["coefficient"]

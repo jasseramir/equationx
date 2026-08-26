@@ -2,6 +2,8 @@ import re
 
 def clean(num):
     rounded = round(num)
+
+    # 0.0000000001 -> 0, 2.9999999999 -> 3, 2.734829 -> 2.734829 (kept as-is)
     return (
         0 if abs(num) < 1e-10
         else rounded if abs(num - rounded) < 1e-8
@@ -13,6 +15,7 @@ def power(num):
     if "^" not in num:
         return num
 
+    # "2^3^2" -> splits into "2^3" and "2" -> resolves "2^3" first -> 8^2 = 64
     left_side, exp = num.rsplit("^", 1)
     base = power(left_side)
     
@@ -82,19 +85,22 @@ def simplify_power_term(term, var = ""):
         term = "1" + term
     elif term.startswith(f"-{var}"):
         term = "-1" + term[1:]
-    
+
+    # "3x^2^1" -> exponent part "2^1" gets reduced to "2" via power(), giving "3x^2"
     if f"{var}^" in term:
         exp_start = term.rfind(f"{var}^") + 2
         rest_exp = term[exp_start:]
         if "^" in rest_exp:
             powered = power(rest_exp)
             term = term[:exp_start] + powered
-    
+
+    # "2^3x" -> the coefficient "2^3" (before the variable) gets reduced to "8", giving "8x"
     var_pos = term.find(var)
     if var_pos != -1 and "^" in term[:var_pos]:
         powered = power(term[:var_pos])
         term = powered + term[var_pos:]
-    
+
+    # "3x^0" -> "3" (x^0 = 1, drops the variable), "3x^1" -> "3x" (x^1 = x)
     if f"{var}^0" in term:
         term = term.replace(f"{var}^0", "")
     elif f"{var}^1" in term:
@@ -167,6 +173,7 @@ class ComplexNumber:
         if self.imaginary == 0:
             return f"{self.real}"
 
+        # imaginary = 1 -> "i" not "1i", imaginary = -1 -> "-i" not "-1i"
         sign = "+" if self.imaginary > 0 else "-"
         imag_str = "i" if abs(self.imaginary) == 1 else f"{abs(self.imaginary)}i"
         

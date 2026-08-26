@@ -27,7 +27,9 @@ class QuadraticEquation:
             val = float(term)
 
         self.ref.append({
+            # "3x^2" -> degree 2, "3x" -> degree 1, "5" -> degree 0
             "degree": 2 if f"{self.var}^2" in term else 1 if self.var in term else 0,
+            # "3x^2" -> {"coefficient":3}, "5" -> {"value":5}
             "coefficient" if self.var in term else "value": -val if is_right_side else val,
         })
 
@@ -73,6 +75,7 @@ class QuadraticEquation:
 
         a, b, c = 0, 0, 0
 
+        # 3x^2 -5x + 2 = 0 -> a = 3, b = -5, c = 2
         for term in self.ref:
             if term["degree"] == 2:
                 a += term["coefficient"]
@@ -83,6 +86,7 @@ class QuadraticEquation:
             else:
                 raise ValueError(f"Unsupported equation: {self.equation}")
 
+        # 0 = 0 -> infinite / 0 = 5 -> no solution / 5x + 2 = 0 leaked here -> can't solve as quadratic
         if a == 0 and b == 0 and c == 0:
             return { "status": "Infinite Solutions" }
 
@@ -98,6 +102,7 @@ class QuadraticEquation:
             real = clean(-b / (2 * a))
             imaginary = clean(math.sqrt(-discriminant) / (2 * a))
 
+            # x^2 + 1 = 0 -> real = 0, imaginary = 1 -> x1 = 0 + 1i, x2 = 0 - 1i
             z1 = ComplexNumber(round(real, 3), round(imaginary, 3))
             z2 = ComplexNumber(round(real, 3), -round(imaginary, 3))
 
@@ -112,6 +117,7 @@ class QuadraticEquation:
         pos_root = clean((-b + math.sqrt(discriminant)) / (2 * a))
         neg_root = clean((-b - math.sqrt(discriminant)) / (2 * a))
 
+        # discriminant == 0 -> one repeated root (x1 == x2, so return just one)
         if discriminant > 0:
             return (
                 {
