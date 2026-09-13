@@ -163,8 +163,10 @@ class QuadraticEquation:
         if not unique_x:
             return { "status": "No Real Solution" }
 
-        result = { f"{self.var}{i+1}": clean(val) for i, val in enumerate(unique_x) }
-        result["status"] = "Solved"
-        
-        return result
+        if len(unique_x) == 1:
+            result = { self.var: clean(unique_x[0]) }
+        else:
+            result = { f"{self.var}{i+1}": clean(val) for i, val in enumerate(unique_x) }
 
+        result["status"] = "Solved"
+        return result
