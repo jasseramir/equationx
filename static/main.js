@@ -1,4 +1,5 @@
 let count = 1;
+let loadingInterval = null;
 
 const fieldGroup = document.getElementById("fieldGroup");
 const addBtn = document.getElementById("addBtn");
@@ -7,7 +8,7 @@ const resultDiv = document.getElementById("result");
 
 function updateNumbers() {
     const fields = fieldGroup.querySelectorAll(".single-field");
-    
+
     fields.forEach((field, index) => {
         const numSpan = field.querySelector(".eq-num");
         const deleteBtn = field.querySelector(".delete-btn");
@@ -15,7 +16,7 @@ function updateNumbers() {
         if (numSpan) {
             numSpan.textContent = index + 1;
         }
-        
+
         if (deleteBtn) {
             deleteBtn.disabled = fields.length === 1;
         }
@@ -50,7 +51,40 @@ function insertInput() {
     updateNumbers(); 
 }
 
+// Starts the "Solving..." loading animation inside resultDiv
+function showLoadingAnimation() {
+    resultDiv.style.display = "flex";
+    resultDiv.innerHTML = "";
+
+    const dotsStates = [".", "..", "...", ""];
+    let i = 0;
+
+    // Render through KaTeX so it uses the exact same font metrics as the results
+    katex.render("\\text{Solving.}", resultDiv, {
+        throwOnError: false,
+        displayMode: true
+    });
+
+    loadingInterval = setInterval(() => {
+        i = (i + 1) % dotsStates.length;
+        const dots = dotsStates[i];
+        katex.render(`\\text{Solving${dots}}`, resultDiv, {
+            throwOnError: false,
+            displayMode: true
+        });
+    }, 500);
+}
+
+// Stops the loading animation, if running
+function stopLoadingAnimation() {
+    if (loadingInterval) {
+        clearInterval(loadingInterval);
+        loadingInterval = null;
+    }
+}
+
 function renderSuccessResult(data) {
+    stopLoadingAnimation();
     resultDiv.style.display = "flex";
 
     // status can be "Solved", "Infinite Solutions", "No Solution", "Not Quadratic".
@@ -61,7 +95,7 @@ function renderSuccessResult(data) {
         const statusText = data.type
             ? `\\begin{gathered}\\text{${data.status}} \\\\ \\text{(${data.type})}\\end{gathered}`
             : `\\text{${data.status}}`;
-        
+
         katex.render(statusText, resultDiv, {
             throwOnError: false,
             displayMode: true
@@ -85,8 +119,9 @@ function renderSuccessResult(data) {
 }
 
 function renderErrorResult() {
+    stopLoadingAnimation();
     resultDiv.style.display = "flex";
-    
+
     katex.render("\\text{Can't Solve}", resultDiv, {
         throwOnError: false,
         displayMode: true
@@ -118,6 +153,8 @@ if (form) {
         const inputElems = fieldGroup.querySelectorAll(".eq-input");
         const equations = Array.from(inputElems).map(input => input.value.trim());
 
+        showLoadingAnimation();
+
         try {
             const response = await fetch("/solve", {
                 method: "POST",
@@ -126,7 +163,7 @@ if (form) {
                 },
                 body: JSON.stringify({ equations })
             });
-            
+
             if (!response.ok) {
                 renderErrorResult();
                 return;
