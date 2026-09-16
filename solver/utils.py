@@ -61,7 +61,7 @@ class EquationValidator:
 
         # "3x^0" -> "3" (x^0 = 1, drops the variable), "3x^1" -> "3x" (x^1 = x)
         if f"{var}^0" in term:
-            term = term.replace(f"{var}^0", "")
+            term = term.replace(f"{var}^0", "1")
         elif f"{var}^1" in term:
             term = term.replace(f"{var}^1", var)
         
