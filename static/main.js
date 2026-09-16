@@ -56,23 +56,11 @@ function showLoadingAnimation() {
     resultDiv.style.display = "flex";
     resultDiv.innerHTML = "";
 
-    const dotsStates = [".", "..", "...", ""];
-    let i = 0;
-
     // Render through KaTeX so it uses the exact same font metrics as the results
-    katex.render("\\text{Solving.}", resultDiv, {
+    katex.render("\\text{Solving...}", resultDiv, {
         throwOnError: false,
         displayMode: true
     });
-
-    loadingInterval = setInterval(() => {
-        i = (i + 1) % dotsStates.length;
-        const dots = dotsStates[i];
-        katex.render(`\\text{Solving${dots}}`, resultDiv, {
-            throwOnError: false,
-            displayMode: true
-        });
-    }, 500);
 }
 
 // Stops the loading animation, if running
