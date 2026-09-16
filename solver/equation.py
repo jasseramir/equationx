@@ -36,6 +36,8 @@ class Equation:
         clean_eq = validator.simplify_power_eq()
         clean_eq = validator.remove_unneccesary_terms()
 
+        self.equation = clean_eq
+
         if re.search(r"\^\d+", clean_eq):
             return "QUADRATIC" if validator.is_quadratic() else "UNKNOWN"
 
@@ -49,7 +51,7 @@ class Equation:
             for char in eq:
                 if char.isalpha():
                     vars_set.add(char)
-                    
+
         return sorted(list(vars_set))
         
     def solve(self):

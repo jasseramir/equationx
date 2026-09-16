@@ -39,11 +39,6 @@ class EquationValidator:
 
         if var == "":
             return power(term)
-            
-        if term.startswith(var):
-            term = "1" + term
-        elif term.startswith(f"-{var}"):
-            term = "-1" + term[1:]
 
         # "3x^2^1" -> exponent part "2^1" gets reduced to "2" via power(), giving "3x^2"
         if f"{var}^" in term:
