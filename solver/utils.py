@@ -111,9 +111,22 @@ class EquationValidator:
     def check_cancelling_terms_term(self, term, is_right_side):
         if not term or not re.search(r"[a-zA-Z]", term):
             return
-        
-        sign = -1 if term.startswith("-") else 1
-        change = sign * (-1 if is_right_side else 1)
+
+        var = ""
+        for char in term:
+            if char.isalpha():
+                var = char
+
+        var_pos = term.find(var)
+        coeff_str = term[:var_pos]
+
+        if coeff_str in ("", "+"):
+            coeff_str = "1"
+        elif coeff_str == "-":
+            coeff_str = "-1"
+
+        coeff = float(coeff_str)
+        change = coeff * (-1 if is_right_side else 1)
 
         if "^" in term:
             pattern = r"[a-zA-Z]\^(-?\d+)"
@@ -124,7 +137,7 @@ class EquationValidator:
         else:
             deg = "1"
             self.ref[deg] = self.ref.get(deg, 0) + change
-            
+
     def check_cancelling_terms_side(self, side, is_right_side):
         current_term = ""
 
